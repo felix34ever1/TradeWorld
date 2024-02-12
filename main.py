@@ -21,7 +21,9 @@ while is_playing:
             is_playing = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x,mouse_y = pygame.mouse.get_pos()
-            world_grid.getTile(mouse_x//PIXELS_PER_TILE,mouse_y//32).printData()
+            
+            world_grid.getTile(mouse_x//PIXELS_PER_TILE,mouse_y//PIXELS_PER_TILE).printData()
+
 
     world_grid.update()
 

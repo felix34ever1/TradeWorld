@@ -14,14 +14,14 @@ class Grid():
         self.ppt = pixels_per_tile
         self.grid_x,self.grid_y = grid_x,grid_y
         self.WINDOW = WINDOW
-        height_noise = PerlinNoise(1,random.randint(100,10000))
-        fertility_noise = PerlinNoise(3,random.randint(100,10000))
+        height_noise = PerlinNoise(2,random.randint(100,10000))
+        fertility_noise = PerlinNoise(1,random.randint(100,10000))
         self.tile_list:list[list[tile.Tile]] = []
         for i in range(grid_x):
             self.tile_list.append([])
             for j in range(grid_y):
-                height = int(abs(height_noise([i/grid_x,j/grid_y])+10)*1000%100) # Generate height (affects how tall (light brown to dark brown))
-                fertility = int(abs(fertility_noise([i/grid_x,j/grid_y])+1)*100%4) # Generate fertility (affects how green tile is)
+                height = int((height_noise([i/grid_x,j/grid_y])**2*300)) # Generate height (affects how tall (light brown to dark brown))
+                fertility = int((fertility_noise([i/grid_x,j/grid_y])**2*1000)*100%3) # Generate fertility (affects how green tile is)
                 print(height,fertility)
                 new_tile = tile.Tile(i,j,height,fertility)
                 self.tile_list[i].append(new_tile)

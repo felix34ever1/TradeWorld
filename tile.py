@@ -11,8 +11,8 @@ class Tile():
         minerals:int
         occupant = None
         self.color:list[int] = [0,0,0]
-        height_color:pygame.Color = pygame.Color(height*2,height*2+1,height*2) # As value becomes more tall, red approaches green and blue approaches green, green stays same
-        if height < 20:
+        height_color:pygame.Color = pygame.Color(height,height,height) 
+        if height < 2:
             height_color+=pygame.Color(10,10,50+height)
         else:
             height_color+=pygame.Color(50,30*fertility,1)
