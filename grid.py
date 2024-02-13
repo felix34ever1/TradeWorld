@@ -2,6 +2,7 @@ import pygame
 import tile
 import random
 import city
+import player
 from perlin_noise import PerlinNoise
 
 
@@ -30,6 +31,8 @@ class Grid():
                 new_tile = tile.Tile(i,j,height,fertility,self.WINDOW)
                 self.tile_list[i].append(new_tile)
 
+        self.player_character = player.Player(self.WINDOW,[5,5])
+
     def display(self):
         for i in range(self.screen_size[0]):
             for j in range(self.screen_size[1]):
@@ -45,6 +48,7 @@ class Grid():
     def update(self,time):
         self.time = time
         self.display()
+        self.player_character.update(time,self.offset[0],self.offset[1],self.ppt)
 
         
 
@@ -55,6 +59,12 @@ class Grid():
         if (offset_vector[1]>0 and self.offset[1]<self.grid_y-self.screen_size[1]) or (offset_vector[1]<0 and self.offset[1]>0):
             self.offset[1]+=offset_vector[1]
         
+    def movePlayerByVector(self,move_vector:list[int]):
+        """ Input a list of 2 elements of -1,0 or +1 each. These represent the player moving left right up down."""
+        if (move_vector[0]>0 and self.player_character.position[0]<self.grid_x) or (move_vector[0]<0 and self.player_character.position[0]>0):
+            self.player_character.position[0]+=move_vector[0]
+        if (move_vector[1]>0 and self.player_character.position[1]<self.grid_y) or (move_vector[1]<0 and self.player_character.position[1]>0):
+            self.player_character.position[1]+=move_vector[1]
 
     def getTile(self,grid_x,grid_y)->tile.Tile:
         return(self.tile_list[grid_x][grid_y])

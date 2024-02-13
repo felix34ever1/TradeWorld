@@ -2,6 +2,7 @@ import pygame
 import random
 import grid
 import city
+import player
 
 pygame.init()
 
@@ -14,6 +15,9 @@ offset_gradient = [0,0]
 WINDOW = pygame.display.set_mode((tiles_shown[0]*PIXELS_PER_TILE,tiles_shown[1]*PIXELS_PER_TILE))
 
 world_grid = grid.Grid(DIMENSIONS,tiles_shown,PIXELS_PER_TILE,WINDOW)
+
+player_character = world_grid.player_character
+
 cities_placed = 0
 while cities_placed <10:
     xplace = random.randint(0,len(world_grid.tile_list)-1)
@@ -33,7 +37,11 @@ while is_playing:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x,mouse_y = pygame.mouse.get_pos()
             
-            world_grid.getTile(mouse_x//PIXELS_PER_TILE,mouse_y//PIXELS_PER_TILE).printData()
+            grid_x,grid_y = mouse_x//PIXELS_PER_TILE,mouse_y//PIXELS_PER_TILE
+
+            world_grid.getTile(grid_x,grid_y).printData()
+
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
                 offset_gradient[1] = -1
@@ -43,6 +51,16 @@ while is_playing:
                 offset_gradient[0] = -1
             if event.key == pygame.K_d:
                 offset_gradient[0] = 1
+
+            if event.key == pygame.K_LEFT:
+                world_grid.movePlayerByVector([-1,0])
+            if event.key == pygame.K_RIGHT:
+                world_grid.movePlayerByVector([1,0])
+            if event.key == pygame.K_UP:
+                world_grid.movePlayerByVector([0,-1])
+            if event.key == pygame.K_DOWN:
+                world_grid.movePlayerByVector([0,1])
+
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
                 offset_gradient[1] = 0
