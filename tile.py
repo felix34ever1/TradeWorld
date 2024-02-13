@@ -10,8 +10,8 @@ class Tile(gameobject.GameObject):
         self.grid_y:int = grid_y
         self.fertility:int = fertility
         self.height:int = height
-        minerals:int = height//20
-        occupant = None
+        self.minerals:int = height//20
+        self.occupant:gameobject.GameObject = None
         self.color:list[int] = [0,0,0]
         height_color:pygame.Color = pygame.Color(height,height,height) 
         if self.height>40 and self.fertility>0:
@@ -29,3 +29,5 @@ class Tile(gameobject.GameObject):
     def printData(self):
         print(f"Fertility:{self.fertility} Height:{self.height}")
         
+    def update(self, time: int):
+        pass
