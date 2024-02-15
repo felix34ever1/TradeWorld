@@ -13,13 +13,15 @@ class Tile(gameobject.GameObject):
         self.minerals:int = height//20
         self.occupant:gameobject.GameObject = None
         self.color:list[int] = [0,0,0]
-        height_color:pygame.Color = pygame.Color(height,height,height) 
+        height_color:pygame.Color = pygame.Color(height,height,height)
+        self.movement_difficulty = self.height//10 + 1#The cost of the movement in days that it takes to travel
         if self.height>40 and self.fertility>0:
             self.fertility-=1
         if self.height<5 and self.fertility<4:
             self.fertility+=1
         if self.height < 2:
             height_color+=pygame.Color(10,10,50+self.height)
+            self.movement_difficulty = 10
         else:
             height_color+=pygame.Color(50,30*self.fertility,1)
 

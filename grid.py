@@ -59,12 +59,16 @@ class Grid():
         if (offset_vector[1]>0 and self.offset[1]<self.grid_y-self.screen_size[1]) or (offset_vector[1]<0 and self.offset[1]>0):
             self.offset[1]+=offset_vector[1]
         
-    def movePlayerByVector(self,move_vector:list[int]):
-        """ Input a list of 2 elements of -1,0 or +1 each. These represent the player moving left right up down."""
+    def movePlayerByVector(self,move_vector:list[int])->int:
+        """ Move player by a vector, then find the time cost of the movement and return it."""
         if (move_vector[0]>0 and self.player_character.position[0]<self.grid_x) or (move_vector[0]<0 and self.player_character.position[0]>0):
             self.player_character.position[0]+=move_vector[0]
-        if (move_vector[1]>0 and self.player_character.position[1]<self.grid_y) or (move_vector[1]<0 and self.player_character.position[1]>0):
+
+        elif (move_vector[1]>0 and self.player_character.position[1]<self.grid_y) or (move_vector[1]<0 and self.player_character.position[1]>0):
             self.player_character.position[1]+=move_vector[1]
+        
+        player_pos = self.player_character.position
+        return self.tile_list[player_pos[0]][player_pos[1]].movement_difficulty
 
     def getTile(self,grid_x,grid_y)->tile.Tile:
         return(self.tile_list[grid_x][grid_y])

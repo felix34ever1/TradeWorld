@@ -10,6 +10,9 @@ DIMENSIONS = [100,100]
 tiles_shown = [50,50]
 PIXELS_PER_TILE = 10
 offset_gradient = [0,0]
+time = 0
+
+game_font = pygame.font.Font("C&C Red Alert [INET].ttf",20)
 
 
 WINDOW = pygame.display.set_mode((tiles_shown[0]*PIXELS_PER_TILE,tiles_shown[1]*PIXELS_PER_TILE))
@@ -52,14 +55,17 @@ while is_playing:
             if event.key == pygame.K_d:
                 offset_gradient[0] = 1
 
+            time_taken = 0
             if event.key == pygame.K_LEFT:
-                world_grid.movePlayerByVector([-1,0])
+                time_taken+=world_grid.movePlayerByVector([-1,0])
             if event.key == pygame.K_RIGHT:
-                world_grid.movePlayerByVector([1,0])
+                time_taken+=world_grid.movePlayerByVector([1,0])
             if event.key == pygame.K_UP:
-                world_grid.movePlayerByVector([0,-1])
+                time_taken+=world_grid.movePlayerByVector([0,-1])
             if event.key == pygame.K_DOWN:
-                world_grid.movePlayerByVector([0,1])
+                time_taken+=world_grid.movePlayerByVector([0,1])
+
+            time+=time_taken
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
@@ -74,6 +80,7 @@ while is_playing:
     
     world_grid.changeOffset(offset_gradient)
 
-    world_grid.update(0)
+    world_grid.update(time)
+    WINDOW.blit(game_font.render(f"Day: {time}",False,(255,255,255)),[200,200])
 
     pygame.display.update()
