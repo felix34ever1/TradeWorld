@@ -17,7 +17,7 @@ class Grid():
         self.offset:list[int] = [0,0]
         self.ppt = pixels_per_tile
         self.grid_x,self.grid_y = grid_x,grid_y
-        self.time = 0 # Days passed
+        self.last_time = 0 # Days passed
         self.WINDOW = WINDOW
         height_noise = PerlinNoise(2,random.randint(100,10000))
         fertility_noise = PerlinNoise(1,random.randint(100,10000))
@@ -40,15 +40,24 @@ class Grid():
                 pygame.draw.rect(self.WINDOW,
                                  tile_used.color,
                                  pygame.Rect(i*self.ppt,j*self.ppt,self.ppt,self.ppt))
-                tile_used.update(self.time)
                 if tile_used.occupant != None:
                     if type(tile_used.occupant) == city.City:
-                        tile_used.occupant.update(self.time,tile_used.grid_x-self.offset[0],tile_used.grid_y-self.offset[1],self.ppt)        
+                        tile_used.occupant.display(tile_used.grid_x-self.offset[0],tile_used.grid_y-self.offset[1],self.ppt)   
+        self.player_character.display(self.offset[0],self.offset[1],self.ppt)
+     
 
     def update(self,time):
-        self.time = time
-        self.display()
-        self.player_character.update(time,self.offset[0],self.offset[1],self.ppt)
+
+
+        if self.last_time%30 > time%30:
+            for i in range(self.screen_size[0]):
+                for j in range(self.screen_size[1]):
+                    tile_used = self.tile_list[i+self.offset[0]][j+self.offset[1]]
+                    tile_used.update(time,self.grid_x,self.grid_y,self.ppt)
+
+        self.last_time = time
+    
+        self.player_character.update(time)
 
         
 

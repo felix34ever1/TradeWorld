@@ -13,8 +13,8 @@ class City(gameobject.GameObject):
         self.color = (random.randint(1,255),random.randint(1,255),random.randint(1,255))
         
 
-    def update(self, time: int, grid_x,grid_y,ppt):
-        self.display(grid_x,grid_y,ppt)
+    def update(self, time: int):
+        self.color = (random.randint(1,255),random.randint(1,255),random.randint(1,255))
 
     def display(self,grid_x,grid_y,ppt):
         pygame.draw.circle(self.WINDOW,self.color,(grid_x*ppt+ppt//2,grid_y*ppt+ppt//2),ppt//2)

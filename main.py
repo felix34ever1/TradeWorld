@@ -6,9 +6,9 @@ import player
 
 pygame.init()
 
-DIMENSIONS = [100,100]
-tiles_shown = [50,50]
-PIXELS_PER_TILE = 10
+DIMENSIONS = [90,90]
+tiles_shown = [30,30]
+PIXELS_PER_TILE = 24
 offset_gradient = [0,0]
 time = 0
 
@@ -81,6 +81,7 @@ while is_playing:
     world_grid.changeOffset(offset_gradient)
 
     world_grid.update(time)
-    WINDOW.blit(game_font.render(f"Day: {time}",False,(255,255,255)),[200,200])
+    world_grid.display()
+    WINDOW.blit(game_font.render(f"Day: {time}",False,(255,255,255)),[20,20])
 
     pygame.display.update()

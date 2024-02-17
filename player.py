@@ -8,14 +8,13 @@ class Player(gameobject.GameObject):
         self.position = starting_position
         self.color = pygame.Color(255,255,0)
 
-    def display(self,grid_x,grid_y,ppt):
+    def display(self,offset_x,offset_y,ppt):
         pygame.draw.rect(self.WINDOW,self.color,pygame.Rect(
-            grid_x*ppt,
-            grid_y*ppt,
+            (self.position[0]-offset_x)*ppt,
+            (self.position[1]-offset_y)*ppt,
             ppt,
             ppt
         ))
 
-    def update(self, time: int,offset_x,offset_y,ppt):
-        self.display(self.position[0]-offset_x,self.position[1]-offset_y,ppt)
-
+    def update(self, time: int):
+        pass

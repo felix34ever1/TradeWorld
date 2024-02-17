@@ -31,5 +31,10 @@ class Tile(gameobject.GameObject):
     def printData(self):
         print(f"Fertility:{self.fertility} Height:{self.height}")
         
-    def update(self, time: int):
-        pass
+    def update(self, time: int,grid_x,grid_y,ppt):
+        if self.occupant!= None:
+            self.occupant.update(time)
+
+    def display(self,grid_x,grid_y,ppt):
+        if self.occupant!=None:
+            self.occupant.display(grid_x,grid_y,ppt)

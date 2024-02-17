@@ -10,7 +10,7 @@ class GameObject():
     def display(self,grid_x,grid_y,ppt):
         pass
 
-    def update(self,time:int,grid_x,grid_y,ppt):
+    def update(self,time:int):
         if time//30 == 0:
             self.perMonth()
         self.display()
