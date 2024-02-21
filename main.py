@@ -31,57 +31,83 @@ while cities_placed <10:
 
 is_playing = True
 
+state_world = True
+state_city_menu = False
+just_switched = False
+
 while is_playing:
 
     events = pygame.event.get()
+    just_switched = False
     for event in events:
         if event.type == pygame.QUIT:
             is_playing = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_x,mouse_y = pygame.mouse.get_pos()
-            
-            grid_x,grid_y = mouse_x//PIXELS_PER_TILE,mouse_y//PIXELS_PER_TILE
+        
+        if state_world:
+        
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x,mouse_y = pygame.mouse.get_pos()
+                
+                grid_x,grid_y = mouse_x//PIXELS_PER_TILE,mouse_y//PIXELS_PER_TILE
 
-            world_grid.getTile(grid_x,grid_y).printData()
+                world_grid.getTile(grid_x,grid_y).printData()
 
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
-                offset_gradient[1] = -1
-            if event.key == pygame.K_s:
-                offset_gradient[1] = 1
-            if event.key == pygame.K_a:
-                offset_gradient[0] = -1
-            if event.key == pygame.K_d:
-                offset_gradient[0] = 1
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_w:
+                    offset_gradient[1] = -1
+                if event.key == pygame.K_s:
+                    offset_gradient[1] = 1
+                if event.key == pygame.K_a:
+                    offset_gradient[0] = -1
+                if event.key == pygame.K_d:
+                    offset_gradient[0] = 1
+                if event.key == pygame.K_SPACE and not just_switched:
+                    if world_grid.isPlayerAtCity():
+                        offset_gradient = [0,0]
+                        state_world = False
+                        state_city_menu = True
+                        just_switched = True
+                    
 
-            time_taken = 0
-            if event.key == pygame.K_LEFT:
-                time_taken+=world_grid.movePlayerByVector([-1,0])
-            if event.key == pygame.K_RIGHT:
-                time_taken+=world_grid.movePlayerByVector([1,0])
-            if event.key == pygame.K_UP:
-                time_taken+=world_grid.movePlayerByVector([0,-1])
-            if event.key == pygame.K_DOWN:
-                time_taken+=world_grid.movePlayerByVector([0,1])
+                time_taken = 0
+                if event.key == pygame.K_LEFT:
+                    time_taken+=world_grid.movePlayerByVector([-1,0])
+                if event.key == pygame.K_RIGHT:
+                    time_taken+=world_grid.movePlayerByVector([1,0])
+                if event.key == pygame.K_UP:
+                    time_taken+=world_grid.movePlayerByVector([0,-1])
+                if event.key == pygame.K_DOWN:
+                    time_taken+=world_grid.movePlayerByVector([0,1])
 
-            time+=time_taken
+                time+=time_taken
 
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_w:
-                offset_gradient[1] = 0
-            if event.key == pygame.K_s:
-                offset_gradient[1] = 0
-            if event.key == pygame.K_a:
-                offset_gradient[0] = 0
-            if event.key == pygame.K_d:
-                offset_gradient[0] = 0 
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_w:
+                    offset_gradient[1] = 0
+                if event.key == pygame.K_s:
+                    offset_gradient[1] = 0
+                if event.key == pygame.K_a:
+                    offset_gradient[0] = 0
+                if event.key == pygame.K_d:
+                    offset_gradient[0] = 0 
 
-    
-    world_grid.changeOffset(offset_gradient)
+        if state_city_menu:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and not just_switched:
+                    state_world = True
+                    state_city_menu = False
+                    just_switched = True
 
-    world_grid.update(time)
-    world_grid.display()
+
+    if state_world:
+        world_grid.changeOffset(offset_gradient)
+
+        world_grid.update(time)
+        world_grid.display()
+    if state_city_menu:
+        world_grid.displayCity()
+
     WINDOW.blit(game_font.render(f"Day: {time}",False,(255,255,255)),[20,20])
 
     pygame.display.update()

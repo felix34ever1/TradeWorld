@@ -19,6 +19,7 @@ class Grid():
         self.grid_x,self.grid_y = grid_x,grid_y
         self.last_time = 0 # Days passed
         self.WINDOW = WINDOW
+        self.font = pygame.font.Font("C&C Red Alert [INET].ttf",20)
         height_noise = PerlinNoise(2,random.randint(100,10000))
         fertility_noise = PerlinNoise(1,random.randint(100,10000))
         self.tile_list:list[list[tile.Tile]] = []
@@ -33,7 +34,7 @@ class Grid():
 
         self.player_character = player.Player(self.WINDOW,[5,5])
 
-    def display(self):
+    def display(self): # Called when displaying the world
         for i in range(self.screen_size[0]):
             for j in range(self.screen_size[1]):
                 tile_used = self.tile_list[i+self.offset[0]][j+self.offset[1]]
@@ -45,6 +46,16 @@ class Grid():
                         tile_used.occupant.display(tile_used.grid_x-self.offset[0],tile_used.grid_y-self.offset[1],self.ppt)   
         self.player_character.display(self.offset[0],self.offset[1],self.ppt)
      
+    def displayCity(self): # Called when displaying a city menu
+        player_pos = self.player_character.position
+        current_city:city.City = self.tile_list[player_pos[0]][player_pos[1]].occupant
+        
+        pygame.draw.rect(self.WINDOW,(160,160,160,200),
+                         pygame.Rect(self.screen_size[0]*self.ppt//10,self.screen_size[1]*self.ppt//10,
+                                     self.screen_size[0]*self.ppt//10*8,self.screen_size[1]*self.ppt//10*8))
+        self.WINDOW.blit(self.font.render(f"Food:{current_city.food_production}",False,(255,255,255)),[self.screen_size[0]*self.ppt//5,self.screen_size[1]*self.ppt//5])
+        self.WINDOW.blit(self.font.render(f"Minerals:{current_city.mineral_extraction}",False,(255,255,255)),[self.screen_size[0]*self.ppt//5,self.screen_size[1]*self.ppt//10*3])
+
 
     def update(self,time):
 
@@ -59,7 +70,15 @@ class Grid():
     
         self.player_character.update(time)
 
-        
+    def isPlayerAtCity(self)->bool:
+        player_pos = self.player_character.position
+        player_tile = self.tile_list[player_pos[0]][player_pos[1]]
+        if player_tile.occupant!=None:
+            if  type(player_tile.occupant)==city.City:
+                return True
+        return False
+            
+    
 
     def changeOffset(self,offset_vector:list[int]):
         """ Input a list of 2 elements of -1,0 or +1 each. These represent the screen moving left right up down."""

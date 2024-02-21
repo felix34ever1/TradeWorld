@@ -1,6 +1,7 @@
 import pygame
 import gameobject
 import random
+import building
 
 class City(gameobject.GameObject):
     """ Blah blah city class"""
@@ -11,6 +12,17 @@ class City(gameobject.GameObject):
         self.mineral_extraction = 0
         self.population = 1
         self.color = (random.randint(1,255),random.randint(1,255),random.randint(1,255))
+        self.buildings:list[building.Building] = []
+        self.resources ={
+            "food":0,
+            "stone":0,
+            "metal":0,
+            "animal products":0,
+            "clothing":0,
+            "alcohol":0,
+            "fabric":0
+
+        }
         
 
     def update(self, time: int):
