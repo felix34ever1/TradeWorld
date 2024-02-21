@@ -53,9 +53,10 @@ class Grid():
         pygame.draw.rect(self.WINDOW,(160,160,160,200),
                          pygame.Rect(self.screen_size[0]*self.ppt//10,self.screen_size[1]*self.ppt//10,
                                      self.screen_size[0]*self.ppt//10*8,self.screen_size[1]*self.ppt//10*8))
-        self.WINDOW.blit(self.font.render(f"Food:{current_city.food_production}",False,(255,255,255)),[self.screen_size[0]*self.ppt//5,self.screen_size[1]*self.ppt//5])
-        self.WINDOW.blit(self.font.render(f"Minerals:{current_city.mineral_extraction}",False,(255,255,255)),[self.screen_size[0]*self.ppt//5,self.screen_size[1]*self.ppt//10*3])
-
+        counter = 0
+        for resource in current_city.resources:
+            self.WINDOW.blit(self.font.render(f"{resource}:{current_city.resources[resource]}",False,(255,255,255)),[self.screen_size[0]*self.ppt//5,self.screen_size[1]*self.ppt//10*(counter+1)])
+            counter+=1
 
     def update(self,time):
 
@@ -89,10 +90,10 @@ class Grid():
         
     def movePlayerByVector(self,move_vector:list[int])->int:
         """ Move player by a vector, then find the time cost of the movement and return it."""
-        if (move_vector[0]>0 and self.player_character.position[0]<self.grid_x) or (move_vector[0]<0 and self.player_character.position[0]>0):
+        if (move_vector[0]>0 and self.player_character.position[0]<self.grid_x-1) or (move_vector[0]<0 and self.player_character.position[0]>0):
             self.player_character.position[0]+=move_vector[0]
 
-        elif (move_vector[1]>0 and self.player_character.position[1]<self.grid_y) or (move_vector[1]<0 and self.player_character.position[1]>0):
+        elif (move_vector[1]>0 and self.player_character.position[1]<self.grid_y-1) or (move_vector[1]<0 and self.player_character.position[1]>0):
             self.player_character.position[1]+=move_vector[1]
         
         player_pos = self.player_character.position

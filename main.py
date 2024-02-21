@@ -26,7 +26,7 @@ while cities_placed <10:
     xplace = random.randint(0,len(world_grid.tile_list)-1)
     yplace = random.randint(0,len(world_grid.tile_list[0])-1)
     if world_grid.tile_list[xplace][yplace].occupant == None and world_grid.tile_list[xplace][yplace].height>=2:
-        world_grid.tile_list[xplace][yplace].occupant = city.City(WINDOW)
+        world_grid.tile_list[xplace][yplace].occupant = city.City(WINDOW,world_grid.tile_list[xplace][yplace])
         cities_placed+=1
 
 is_playing = True

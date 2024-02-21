@@ -10,7 +10,7 @@ class Tile(gameobject.GameObject):
         self.grid_y:int = grid_y
         self.fertility:int = fertility
         self.height:int = height
-        self.minerals:int = height//20
+        self.minerals:int = height//5
         self.occupant:gameobject.GameObject = None
         self.color:list[int] = [0,0,0]
         height_color:pygame.Color = pygame.Color(height,height,height)
