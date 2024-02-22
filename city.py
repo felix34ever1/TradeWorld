@@ -38,7 +38,7 @@ class City(gameobject.GameObject):
         for cur_building in self.buildings:
             cur_building.update(self)
         
-        if self.resources["food"]>self.population:
+        if self.resources["food"]>=self.population:
             self.population+=1
         elif self.resources["food"]<0:
             self.population-=1
@@ -47,12 +47,13 @@ class City(gameobject.GameObject):
         ### Survival needs
 
         # if food consumption>production 
-        if self.food_production>0:
+        if self.food_production>self.food_used and self.population>self.resources["food"]:
             new_farm = building.Farmstead()
             # if can make farm do it
             if new_farm.check_costs(self):
                 new_farm.construction(self)
                 self.buildings.append(new_farm)
+                self.food_used+=1
             # else make more lumber
             self.buildings.append(building.LumberMill())
         

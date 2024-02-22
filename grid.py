@@ -57,6 +57,8 @@ class Grid():
         for resource in current_city.resources:
             self.WINDOW.blit(self.font.render(f"{resource}:{current_city.resources[resource]}",False,(255,255,255)),[self.screen_size[0]*self.ppt//5,self.screen_size[1]*self.ppt//10*(counter+1)])
             counter+=1
+        
+        self.WINDOW.blit(self.font.render(f"Population:{current_city.population}",False,(255,255,255)),[self.screen_size[0]//10*7,self.screen_size[1]//5])
 
     def update(self,time):
 

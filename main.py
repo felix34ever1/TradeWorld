@@ -49,8 +49,8 @@ while is_playing:
                 mouse_x,mouse_y = pygame.mouse.get_pos()
                 
                 grid_x,grid_y = mouse_x//PIXELS_PER_TILE,mouse_y//PIXELS_PER_TILE
-
-                world_grid.getTile(grid_x,grid_y).printData()
+                offset = world_grid.offset
+                world_grid.getTile(grid_x+offset[0],grid_y+offset[1]).printData()
 
 
             if event.type == pygame.KEYDOWN:
